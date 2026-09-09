@@ -1,0 +1,6 @@
+# Dart & Flutter temp files
+.dart_tool/
+.packages
+.pub/
+build/
+*.lock

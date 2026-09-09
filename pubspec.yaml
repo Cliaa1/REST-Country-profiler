@@ -1,0 +1,7 @@
+name: country_workspace
+environment:
+  sdk: '^3.8.1'
+workspace:
+  - terminal_colors
+  - country_api
+  - country_cli
