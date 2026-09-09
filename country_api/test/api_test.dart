@@ -16,7 +16,7 @@ void main() {
         'area': 342353.0,
         'languages': {'eng': 'English', 'fil': 'Filipino'},
         'currencies': {
-          'PHP': {'name': 'Philippine peso', 'symbol': '₱'}
+          'PHP': {'name': 'Philippine peso', 'symbol': '₱'},
         },
         'borders': ['MYS'],
         'flags': {'png': 'https://flagcdn.com/w320/ph.png'},
