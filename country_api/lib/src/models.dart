@@ -29,38 +29,41 @@ class Country {
     required this.mapsUrl,
   });
 
+  /// Pattern-matched JSON deserializer following Sound Null Safety
   factory Country.fromJson(Map<String, dynamic> json) {
     return switch (json) {
-      {
-        'name': {
-          'common': String common,
-          'official': String official,
-        },
-        'capital': List capitalList,
-        'region': String region,
-        'subregion': String? subregion,
-        'population': num population,
-        'area': num area,
-        'languages': Map<String, dynamic>? languagesMap,
-        'currencies': Map<String, dynamic>? currenciesMap,
-        'borders': List? bordersList,
-        'flags': {'png': String flag},
-        'maps': {'googleMaps': String maps},
-      } =>
+      {'name': {'common': String common, 'official': String official}} =>
         Country(
           commonName: common,
           officialName: official,
-          capital: capitalList.isNotEmpty ? capitalList.first.toString() : 'N/A',
-          region: region,
-          subregion: subregion ?? 'N/A',
-          population: population.toInt(),
-          area: area.toDouble(),
-          languages:
-              languagesMap?.values.map((e) => e.toString()).toList() ?? [],
-          currencies: _parseCurrencies(currenciesMap),
-          borders: bordersList?.map((e) => e.toString()).toList() ?? [],
-          flagUrl: flag,
-          mapsUrl: maps,
+          capital: switch (json['capital']) {
+            List cap when cap.isNotEmpty => cap.first.toString(),
+            _ => 'N/A',
+          },
+          region: json['region']?.toString() ?? 'N/A',
+          subregion: json['subregion']?.toString() ?? 'N/A',
+          population: (json['population'] as num?)?.toInt() ?? 0,
+          area: (json['area'] as num?)?.toDouble() ?? 0.0,
+          languages: switch (json['languages']) {
+            Map<String, dynamic> langs =>
+              langs.values.map((e) => e.toString()).toList(),
+            _ => [],
+          },
+          currencies: _parseCurrencies(
+            json['currencies'] as Map<String, dynamic>?,
+          ),
+          borders: switch (json['borders']) {
+            List b => b.map((e) => e.toString()).toList(),
+            _ => [],
+          },
+          flagUrl: switch (json['flags']) {
+            {'png': String pngUrl} => pngUrl,
+            _ => 'N/A',
+          },
+          mapsUrl: switch (json['maps']) {
+            {'googleMaps': String googleUrl} => googleUrl,
+            _ => 'N/A',
+          },
         ),
       _ => throw CountryException('Payload failed pattern validation check!'),
     };
