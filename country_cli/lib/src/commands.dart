@@ -14,7 +14,8 @@ void _printCountry(Country c) {
     ..writeln('Languages   : ${c.languages.join(', ')}')
     ..writeln('Currencies  : ${c.currencies.join(', ')}')
     ..writeln(
-        'Borders     : ${c.borders.isEmpty ? 'None' : c.borders.join(', ')}')
+      'Borders     : ${c.borders.isEmpty ? 'None' : c.borders.join(', ')}',
+    )
     ..writeln('Flag URL    : ${c.flagUrl}')
     ..writeln('Google Maps : ${c.mapsUrl}')
     ..writeln('═══════════════════════'.styleHeader);
@@ -44,7 +45,7 @@ class SearchCommand extends CliCommand {
 
 class RegionCommand extends CliCommand {
   RegionCommand()
-      : super('region', 'List countries by region (e.g. Asia, Europe)');
+    : super('region', 'List countries by region (e.g. Asia, Europe)');
 
   @override
   Future<void> execute(CountryApiClient client, List<String> arguments) async {
@@ -55,7 +56,8 @@ class RegionCommand extends CliCommand {
     try {
       final results = await client.fetchByRegion(arguments.first);
       print(
-          'Found ${results.length} countries in ${arguments.first}'.styleSuccess);
+        'Found ${results.length} countries in ${arguments.first}'.styleSuccess,
+      );
       for (final c in results.take(10)) {
         print('• ${c.commonName} (Capital: ${c.capital})');
       }
@@ -70,7 +72,7 @@ class RegionCommand extends CliCommand {
 
 class CurrencyCommand extends CliCommand {
   CurrencyCommand()
-      : super('currency', 'Find countries by currency code (e.g. PHP, USD)');
+    : super('currency', 'Find countries by currency code (e.g. PHP, USD)');
 
   @override
   Future<void> execute(CountryApiClient client, List<String> arguments) async {
@@ -80,8 +82,7 @@ class CurrencyCommand extends CliCommand {
     }
     try {
       final results = await client.fetchByCurrency(arguments.first);
-      print(
-          'Countries using "${arguments.first.toUpperCase()}":'.styleSuccess);
+      print('Countries using "${arguments.first.toUpperCase()}":'.styleSuccess);
       for (final c in results) {
         print('• ${c.commonName} → ${c.currencies.join(', ')}');
       }
@@ -93,7 +94,7 @@ class CurrencyCommand extends CliCommand {
 
 class LanguageCommand extends CliCommand {
   LanguageCommand()
-      : super('language', 'Find countries by language code (e.g. eng, spa)');
+    : super('language', 'Find countries by language code (e.g. eng, spa)');
 
   @override
   Future<void> execute(CountryApiClient client, List<String> arguments) async {

@@ -1,4 +1,5 @@
 name: country_cli
+publish_to: 'none'
 version: 1.0.0
 environment:
   sdk: '^3.8.1'
@@ -10,3 +11,5 @@ dependencies:
     path: ../terminal_colors
   country_api:
     path: ../country_api
+dev_dependencies:
+  lints: ^4.0.0
